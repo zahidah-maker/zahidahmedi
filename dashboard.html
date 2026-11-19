@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Meta Tags -->
+    <meta
+      name="keywords"
+      content="MediTrack HIMS, Hospital Dashboard, Hospital Statistics, Healthcare"
+    />
+
+    <meta
+      name="description"
+      content="MediTrack HIMS dashboard displaying hospital information, summary statistics, and recent activities."
+    />
+
+    <meta name="author" content="Syarifah Zahidah" />
+
+    <title>Dashboard | MediTrack HIMS</title>
+
+    <script>
+      if (sessionStorage.getItem("himsLoggedIn") !== "true") {
+        location.replace("index.html");
+      }
+    </script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/app.css" />
+
+    <script src="../js/theme.js"></script>
+
+    <title>Dashboard | MediTrack HIMS</title>
+  </head>
+  <body>
+    <div id="overlay" class="overlay"></div>
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-area">
+      <header id="topbar" class="topbar"></header>
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h2>Hospital overview</h2>
+            <p>
+              Live summary of patients, doctors and appointments. Click any card
+              or chart to open the matching records.
+            </p>
+          </div>
+        </div>
+
+        <!-- Summary cards (each one links to its records) -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-xl-3">
+            <a class="stat-card" href="patients.html">
+              <span class="stat-icon tone-teal"
+                ><i class="bi bi-people-fill"></i
+              ></span>
+              <div>
+                <div class="stat-value" id="stat-patients">0</div>
+                <div class="stat-label">Total patients</div>
+              </div>
+              <i class="bi bi-arrow-right stat-go"></i>
+            </a>
+          </div>
+          <div class="col-6 col-xl-3">
+            <a class="stat-card" href="doctors.html">
+              <span class="stat-icon tone-navy"
+                ><i class="bi bi-person-badge-fill"></i
+              ></span>
+              <div>
+                <div class="stat-value" id="stat-doctors">0</div>
+                <div class="stat-label">Total doctors</div>
+              </div>
+              <i class="bi bi-arrow-right stat-go"></i>
+            </a>
+          </div>
+          <div class="col-6 col-xl-3">
+            <a class="stat-card" id="card-today" href="appointments.html">
+              <span class="stat-icon tone-green"
+                ><i class="bi bi-calendar-day-fill"></i
+              ></span>
+              <div>
+                <div class="stat-value" id="stat-today">0</div>
+                <div class="stat-label">Today's appointments</div>
+              </div>
+              <i class="bi bi-arrow-right stat-go"></i>
+            </a>
+          </div>
+          <div class="col-6 col-xl-3">
+            <a class="stat-card" href="appointments.html?status=Pending">
+              <span class="stat-icon tone-amber"
+                ><i class="bi bi-hourglass-split"></i
+              ></span>
+              <div>
+                <div class="stat-value" id="stat-pending">0</div>
+                <div class="stat-label">Pending appointments</div>
+              </div>
+              <i class="bi bi-arrow-right stat-go"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Appointments by day + status -->
+        <div class="row g-3 mb-3">
+          <div class="col-lg-8">
+            <div class="panel">
+              <h3 class="panel-title">
+                Appointments: past 7 days and next 7 days
+              </h3>
+              <p class="chart-hint">
+                Click a bar to see that day's appointments.
+              </p>
+              <div class="chart-box">
+                <canvas
+                  id="dailyChart"
+                  role="img"
+                  aria-label="Stacked bar chart of appointments per day by status"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel">
+              <h3 class="panel-title">Appointment status</h3>
+              <p class="chart-hint">Click a slice to filter appointments.</p>
+              <div class="chart-box">
+                <canvas
+                  id="statusChart"
+                  role="img"
+                  aria-label="Doughnut chart of appointment status"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly visits + departments -->
+        <div class="row g-3 mb-3">
+          <div class="col-lg-6">
+            <div class="panel">
+              <h3 class="panel-title">Patient visits by month</h3>
+              <p class="chart-hint">This year compared with last year.</p>
+              <div class="chart-box">
+                <canvas
+                  id="visitsChart"
+                  role="img"
+                  aria-label="Bar and line chart of patient visits by month"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel">
+              <h3 class="panel-title">Patients by department</h3>
+              <p class="chart-hint">
+                Click a bar to list that department's patients.
+              </p>
+              <div class="chart-box">
+                <canvas
+                  id="deptChart"
+                  role="img"
+                  aria-label="Horizontal bar chart of patients by department"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Age + gender -->
+        <div class="row g-3 mb-4">
+          <div class="col-lg-8">
+            <div class="panel">
+              <h3 class="panel-title">Patients by age group</h3>
+              <p class="chart-hint">
+                Click a bar to filter patients by age group.
+              </p>
+              <div class="chart-box">
+                <canvas
+                  id="ageChart"
+                  role="img"
+                  aria-label="Bar chart of patients by age group"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel">
+              <h3 class="panel-title">Patients by gender</h3>
+              <p class="chart-hint">Click a slice to filter patients.</p>
+              <div class="chart-box">
+                <canvas
+                  id="genderChart"
+                  role="img"
+                  aria-label="Doughnut chart of patients by gender"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's schedule + activities -->
+        <div class="row g-3">
+          <div class="col-lg-8">
+            <div class="panel">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <h3 class="panel-title m-0">Today's schedule</h3>
+                <a
+                  href="appointments.html"
+                  id="schedule-all"
+                  class="small text-decoration-none"
+                  >View all appointments</a
+                >
+              </div>
+              <div id="schedule-list"></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel">
+              <h3 class="panel-title">Recent activities</h3>
+              <ul class="activity-list" id="activity-list"></ul>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer id="footer" class="app-footer"></footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/dashboard.js"></script>
+  </body>
+</html>

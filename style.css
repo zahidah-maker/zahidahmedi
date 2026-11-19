@@ -1,0 +1,380 @@
+/* =================================
+   MEDITrack HIMS - LOGIN PAGE
+   ================================= */
+
+:root {
+  --primary: #087f8c;
+  --primary-dark: #06636d;
+  --navy: #123047;
+  --background: #f3f7fa;
+  --text: #243746;
+  --muted: #718096;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: var(--background);
+}
+
+/* Main Layout */
+.login-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Left Introduction Section */
+.login-intro {
+  width: 48%;
+  padding: 45px 7%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--white);
+  background:
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(39, 183, 183, 0.25),
+      transparent 35%
+    ),
+    linear-gradient(145deg, #102d43, #15566a);
+}
+
+.hospital-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+
+.logo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--white);
+  background: var(--primary);
+  font-size: 27px;
+}
+
+.intro-content {
+  max-width: 520px;
+  margin: 55px 0;
+}
+
+.welcome-label,
+.form-label {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.welcome-label {
+  color: #8de0df;
+}
+
+.intro-content h1 {
+  margin-top: 24px;
+  margin-bottom: 20px;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.intro-content h1 span {
+  display: block;
+  color: #8de0df;
+}
+
+.intro-content p {
+  max-width: 430px;
+  color: #d5e3eb;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.intro-features {
+  display: grid;
+  gap: 16px;
+  margin-top: 35px;
+  color: #edf7f8;
+  font-size: 14px;
+}
+
+.intro-footer {
+  margin: 0;
+  color: #c1d5df;
+  font-size: 12px;
+}
+
+/* Right Login Section */
+.login-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px;
+  background: var(--white);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 410px;
+}
+.mobile-logo {
+  display: none;
+}
+.form-heading {
+  margin-bottom: 32px;
+}
+.form-heading .form-label {
+  color: var(--primary);
+}
+
+.form-heading h2 {
+  margin-top: 14px;
+  margin-bottom: 10px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.form-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Form Fields */
+.form-label {
+  margin-bottom: 9px;
+  color: var(--text);
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+.form-control {
+  min-height: 49px;
+  padding: 12px 14px;
+  border: 1px solid #dce5eb;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(8, 127, 140, 0.12);
+}
+
+.form-control::placeholder {
+  color: #a0acb8;
+}
+.form-check-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Login Button */
+.btn-login {
+  min-height: 49px;
+  border: none;
+  border-radius: 9px;
+  color: var(--white);
+  background: var(--primary);
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.btn-login:hover {
+  color: var(--white);
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.button-arrow {
+  margin-left: 8px;
+  font-size: 19px;
+}
+
+/* Security and Demo Notes */
+.security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.demo-note {
+  margin-top: 24px;
+  margin-bottom: 0;
+  text-align: center;
+  color: #7d8a97;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .login-intro {
+    width: 42%;
+    padding: 35px;
+  }
+  .login-form-section {
+    padding: 30px;
+  }
+  .intro-content h1 {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 650px) {
+  .login-container {
+    flex-direction: column;
+  }
+  .login-intro {
+    display: none;
+  }
+  .login-form-section {
+    min-height: 100vh;
+    padding: 28px 22px;
+  }
+  .login-card {
+    max-width: 440px;
+  }
+
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 45px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--navy);
+  }
+
+  .form-heading h2 {
+    font-size: 29px;
+  }
+}
+
+/* =================================
+   DARK MODE - LOGIN PAGE
+   ================================= */
+
+html[data-theme="dark"] {
+  --background: #111c2a;
+  --text: #e5edf5;
+  --muted: #a8b6c7;
+  --white: #1c2a3b;
+  --navy: #e6f0f8;
+  --border: #34465a;
+}
+
+html[data-theme="dark"] body {
+  background: var(--background);
+  color: var(--text);
+}
+
+html[data-theme="dark"] .login-form-section {
+  background: #111c2a;
+}
+
+html[data-theme="dark"] .login-card {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .form-heading h2 {
+  color: #e6f0f8;
+}
+
+html[data-theme="dark"] .form-heading p,
+html[data-theme="dark"] .form-check-label,
+html[data-theme="dark"] .security-note,
+html[data-theme="dark"] .demo-note {
+  color: #a8b6c7;
+}
+
+html[data-theme="dark"] .form-control {
+  color: #edf4fa;
+  background: #1c2a3b;
+  border-color: #40536a;
+}
+
+html[data-theme="dark"] .form-control::placeholder {
+  color: #8999ad;
+}
+
+html[data-theme="dark"] .form-control:focus {
+  color: #ffffff;
+  background: #1c2a3b;
+}
+
+html[data-theme="dark"] .form-check-input {
+  background-color: #26374b;
+  border-color: #64748b;
+}
+
+html[data-theme="dark"] .mobile-logo {
+  color: #e6f0f8;
+}
+
+/* Theme button */
+.login-theme-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.login-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid #dce5eb;
+  border-radius: 30px;
+  color: var(--text);
+  background: transparent;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.login-theme-toggle:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+html[data-theme="dark"] .login-theme-toggle {
+  color: #e5edf5;
+  border-color: #40536a;
+  background: #1c2a3b;
+}
+
+html[data-theme="dark"] .login-theme-toggle:hover {
+  color: #8de0df;
+  border-color: #8de0df;
+}

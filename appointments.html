@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Meta Tags -->
+    <meta
+      name="keywords"
+      content="MediTrack HIMS, Appointment Management, Hospital Appointments, Patient Booking"
+    />
+
+    <meta
+      name="description"
+      content="MediTrack HIMS appointment management page for viewing, adding, editing, searching, and managing hospital appointments."
+    />
+
+    <meta name="author" content="Syarifah Zahidah" />
+
+    <title>Appointments | MediTrack HIMS</title>
+
+    <script>
+      if (sessionStorage.getItem("himsLoggedIn") !== "true") {
+        location.replace("index.html");
+      }
+    </script>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" href="../css/app.css" />
+
+    <script src="../js/theme.js"></script>
+
+    <title>Appointments | MediTrack HIMS</title>
+  </head>
+
+  <body>
+    <div id="overlay" class="overlay"></div>
+
+    <aside id="sidebar" class="sidebar"></aside>
+
+    <div class="main-area">
+      <!-- Top Navigation -->
+      <header id="topbar" class="topbar"></header>
+
+      <main class="content">
+        <!-- Page Heading -->
+        <div class="page-head">
+          <div>
+            <h2>Appointment management</h2>
+            <p>Schedule, update and track hospital appointments.</p>
+          </div>
+
+          <button type="button" class="btn btn-primary-app" id="add-btn">
+            <i class="bi bi-plus-lg"></i>
+            Add appointment
+          </button>
+        </div>
+
+        <!-- Status Summary Cards -->
+        <div class="row g-3 mb-3" id="status-cards"></div>
+
+        <!-- Appointment Management Panel -->
+        <div class="panel">
+          <!-- Search and Filters -->
+          <div class="row g-2 toolbar">
+            <div class="col-md-5">
+              <input
+                type="search"
+                id="search"
+                class="form-control"
+                placeholder="Search by ID, patient or doctor"
+                aria-label="Search appointments"
+              />
+            </div>
+
+            <div class="col-md-3">
+              <select
+                id="filter-status"
+                class="form-select"
+                aria-label="Filter by status"
+              >
+                <option value="">All statuses</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <input
+                type="date"
+                id="filter-date"
+                class="form-control"
+                aria-label="Filter by date"
+              />
+            </div>
+          </div>
+
+          <!-- Filter Chips -->
+          <div id="chips" class="chips"></div>
+
+          <!-- Appointment Count -->
+          <div class="mini-stats" id="count"></div>
+
+          <!-- Appointment Table -->
+          <div class="table-responsive">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty d-none">
+            No appointments match these filters. Clear a filter or add a new
+            appointment.
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer id="footer" class="app-footer"></footer>
+    </div>
+
+    <!-- =================================
+         ADD / EDIT APPOINTMENT MODAL
+    ================================== -->
+
+    <div
+      class="modal fade"
+      id="appt-modal"
+      tabindex="-1"
+      aria-labelledby="modal-title"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="appt-form" novalidate>
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title">Add appointment</h5>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <input type="hidden" id="appt-id" />
+
+            <!-- Patient -->
+            <div class="mb-3">
+              <label for="appt-patient" class="form-label"> Patient </label>
+
+              <select class="form-select" id="appt-patient" required>
+                <option value="">Select</option>
+              </select>
+
+              <div class="invalid-feedback">Select a patient.</div>
+            </div>
+
+            <!-- Doctor -->
+            <div class="mb-3">
+              <label for="appt-doctor" class="form-label"> Doctor </label>
+
+              <select class="form-select" id="appt-doctor" required>
+                <option value="">Select</option>
+              </select>
+
+              <div class="invalid-feedback">Select a doctor.</div>
+            </div>
+
+            <!-- Date and Time -->
+            <div class="row g-3">
+              <div class="col-6">
+                <label for="appt-date" class="form-label"> Date </label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  id="appt-date"
+                  required
+                />
+
+                <div class="invalid-feedback">Choose a date.</div>
+              </div>
+
+              <div class="col-6">
+                <label for="appt-time" class="form-label"> Time </label>
+
+                <input
+                  type="time"
+                  class="form-control"
+                  id="appt-time"
+                  required
+                />
+
+                <div class="invalid-feedback">Choose a time.</div>
+              </div>
+            </div>
+
+            <!-- Appointment Status -->
+            <div class="mt-3">
+              <label for="appt-status" class="form-label"> Status </label>
+
+              <select class="form-select" id="appt-status" required></select>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Cancel
+            </button>
+
+            <button type="submit" class="btn btn-primary-app">
+              Save appointment
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =================================
+         JAVASCRIPT FILES
+    ================================== -->
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Application Data -->
+    <script src="../js/data.js"></script>
+
+    <!-- Shared Application Functions -->
+    <script src="../js/app.js"></script>
+
+    <!-- Appointment Management -->
+    <script src="../js/appointments.js"></script>
+  </body>
+</html>
