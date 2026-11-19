@@ -19,6 +19,7 @@
 
     <title>Doctors | MediTrack HIMS</title>
 
+    <!-- Login Protection -->
     <script>
       if (sessionStorage.getItem("himsLoggedIn") !== "true") {
         location.replace("index.html");
@@ -38,9 +39,10 @@
     />
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="app.css" />
 
-    <script src="../js/theme.js"></script>
+    <!-- Theme Management -->
+    <script src="theme.js"></script>
   </head>
 
   <body>
@@ -61,6 +63,7 @@
         <div class="page-head">
           <div>
             <h2>Doctors</h2>
+
             <p>
               Workload by doctor. Every number links to the matching
               appointments.
@@ -88,6 +91,7 @@
 
         <!-- Search and Filter -->
         <div class="row g-2 toolbar">
+          <!-- Search -->
           <div class="col-md-6">
             <input
               type="search"
@@ -98,6 +102,7 @@
             />
           </div>
 
+          <!-- Department Filter -->
           <div class="col-md-4">
             <select
               id="filter-dept"
@@ -132,8 +137,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <!-- Project JavaScript -->
-    <script src="../js/data.js"></script>
-    <script src="../js/app.js"></script>
-    <script src="../js/doctors.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script src="doctors.js"></script>
   </body>
 </html>
